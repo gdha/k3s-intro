@@ -1,0 +1,15 @@
+---
+
+# copy the SSH key of vagrant to the master/nodes
+- include_tasks: create_private_ssh_key.yml
+# update all packages
+- include_tasks: update_deb_packages.yml
+
+# Add various helpful configuration files
+- name: Install the hosts file
+  copy: src=hosts dest=/etc/hosts mode=0644
+
+- name: Install packages required to make kubernetes nicer
+  package: name={{ item }} state=present allow_unauthenticated=yes
+  with_items:
+    - bash-completion

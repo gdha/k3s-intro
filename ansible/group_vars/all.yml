@@ -1,0 +1,9 @@
+k3s_version: v0.8.1
+ansible_user: vagrant
+systemd_dir: /etc/systemd/system
+master_ip: "{{ hostvars[groups['master'][0]]['ansible_host'] | default(groups['master'][0]) }}"
+# 
+# node_ip: "{{ hostvars[groups['node']]['ansible_host'] }}"
+# This results with the following error:
+## fatal: [k3s-client1]: FAILED! => {"changed": false, "msg": "AnsibleUndefinedVariable: ansible.vars.hostvars.HostVars object has no element [u'k3s-client1', u'k3s-client2']"}
+# The node role will grab the node_ip now instead

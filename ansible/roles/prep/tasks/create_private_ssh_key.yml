@@ -1,0 +1,42 @@
+---
+
+# File: create_private_ssh_key.yml
+# Create the private SSH keypair for {{ ansible_user }}
+#
+
+#- name: Generate a new keypair for {{ ansible_user }}
+#  command: ssh-keygen -b 2048 -t rsa -f /home/{{ ansible_user }}/.ssh/id_rsa -q -P ''
+#  args:
+#    creates: /home/{{ ansible_user }}/.ssh/id_rsa
+
+# The private and public SSH keypair for user {{ ansible_user }} is saved under the files/ folder
+
+- name: Create /home/{{ ansible_user }}/.ssh (if required)
+  file: path=/home/{{ ansible_user }}/.ssh state=directory mode=0700 owner={{ ansible_user }} group={{ ansible_user }} recurse=yes
+
+- name: Copy private ssh key to /home/{{ ansible_user }}/.ssh
+  copy: src=id_rsa dest=/home/{{ ansible_user }}/.ssh/id_rsa mode=0600 owner={{ ansible_user }} group={{ ansible_user }}
+
+- name: Copy public ssh key to /home/{{ ansible_user }}/.ssh
+  copy: src=id_rsa.pub dest=/home/{{ ansible_user }}/.ssh/id_rsa.pub mode=0644 owner={{ ansible_user }} group={{ ansible_user }}
+
+- name: Copy ssh config file to /home/{{ ansible_user }}/.ssh
+  copy: src=ssh-config dest=/home/{{ ansible_user }}/.ssh/config mode=0644 owner={{ ansible_user }} group={{ ansible_user }}
+
+- name: Append public ssh key to the authorized_keys file
+  shell: cat /home/{{ ansible_user }}/.ssh/id_rsa.pub >>/home/{{ ansible_user }}/.ssh/authorized_keys
+
+- name: Create /root/.ssh (if required)
+  file: path=/root/.ssh state=directory mode=0700 owner=root group=root recurse=yes
+
+- name: Copy private ssh key to /root/.ssh
+  copy: src=id_rsa dest=/root/.ssh/id_rsa mode=0600 owner=root group=root
+
+- name: Copy public ssh key to /root/.ssh
+  copy: src=id_rsa.pub dest=/root/.ssh/id_rsa.pub mode=0644 owner=root group=root
+
+- name: Copy ssh config file to /root/.ssh
+  copy: src=ssh-config dest=/root/.ssh/config mode=0644 owner=root group=root
+
+- name: Append roots public ssh key to the authorized_keys file
+  shell: cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys

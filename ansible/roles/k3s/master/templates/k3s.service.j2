@@ -1,0 +1,21 @@
+[Unit]
+Description=Lightweight Kubernetes
+Documentation=https://k3s.io
+After=network-online.target
+[Service]
+ExecStartPre=-/sbin/modprobe br_netfilter
+ExecStartPre=-/sbin/modprobe overlay
+#ExecStart=/usr/local/bin/k3s server --bind-address={{ master_ip }} --node-ip={{ master_ip }}
+# We want localhost also for helm
+ExecStart=/usr/local/bin/k3s server --node-ip={{ master_ip }}
+KillMode=process
+Delegate=yes
+LimitNOFILE=infinity
+LimitNPROC=infinity
+LimitCORE=infinity
+TasksMax=infinity
+Restart=always
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
