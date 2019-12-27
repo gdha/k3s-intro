@@ -76,7 +76,35 @@
     dest: /usr/local/bin/crictl
     state: link
 
-- name: Kubectl Autocomplete to .bashrc
-  command: echo "source <(kubectl completion bash)" >> /home/{{ ansible_user }}/.bashrc
+- name: Kubectl Autocomplete to .bashrc of {{ ansible_user }}
+  lineinfile:
+    path: /home/{{ ansible_user }}/.bashrc
+    line: 'source <(kubectl completion bash)'
+
+- name: Kubectl Autocomplete to .bashrc of root
+  lineinfile:
+    path: /home/root/.bashrc
+    line: 'source <(kubectl completion bash)'
+
+- name: add KUBECONFIG to .bashrc of {{ ansible_user }}
+    lineinfile:
+    path: /home/{{ ansible_user }}/.bashrc
+    line: 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml'
+
+- name: add KUBECONFIG to .bashrc of root
+    lineinfile:
+    path: /home/root/.bashrc
+    line: 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml'
+
+- name: add CATTLE_SERVER to .bashrc of {{ ansible_user }}
+  lineinfile:
+    path: /home/{{ ansible_user }}/.bashrc
+    line: 'export CATTLE_SERVER=https://rancher
+
+- name: add CATTLE_SERVER to .bashrc of root
+  lineinfile:
+    path: /home/root/.bashrc
+    line: 'export CATTLE_SERVER=https://rancher
+
 - include_tasks: install_helm.yml
 - include_tasks: install_cert_manager.yml

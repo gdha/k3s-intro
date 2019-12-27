@@ -1,6 +1,7 @@
 127.0.0.1	localhost.lavabit.com localhost localhost.localdomain localhost
 ::1		localhost localhost.localdomain
 
+192.168.33.1   rancher
 192.168.33.11  k3s-master.box k3s-master
 192.168.33.12  k3s-client1.box k3s-client1
 192.168.33.13  k3s-client2.box k3s-client2
