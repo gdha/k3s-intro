@@ -1,7 +1,7 @@
 ---
 
-- name: copy cert-manager-test.sh to /vagrant
-  copy: src=cert-manager-test.sh dest=/vagrant/cert-manager-test.sh owner=root mode=0755
+#- name: copy cert-manager-test.sh to /vagrant
+#  copy: src=cert-manager-test.sh dest=/vagrant/cert-manager-test.sh owner=root mode=0755
 
 - name: run cert-manager-test.sh to install/configure cert manager
   command: /vagrant/cert-manager-test.sh
