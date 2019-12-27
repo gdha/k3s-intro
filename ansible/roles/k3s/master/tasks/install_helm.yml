@@ -19,3 +19,7 @@
 - name: moving helm executable
   command: mv /tmp/linux-amd64/helm /usr/local/bin/helm
   when: stat_result.stat.exists == True
+
+- name: moving tiller executable (with helm v3 this executable is gone)
+  command: mv /tmp/linux-amd64/tiller /usr/local/bin/tiller
+  when: stat_result.stat.exists == True

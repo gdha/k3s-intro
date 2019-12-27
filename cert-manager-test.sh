@@ -10,7 +10,9 @@ export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 kubectl apply -f https://raw.githubusercontent.com/gdha/k3s-intro/master/deploy/manifests/tiller-serviceaccount-rbac.yaml
 
 # Initialize tiller
-helm init --service-account tiller --wait
+# helm init --service-account tiller --wait --upgrade
+# See issue at https://github.com/helm/helm/issues/6374
+helm init --service-account tiller --output yaml | sed 's@apiVersion: extensions/v1beta1@apiVersion: apps/v1@' | sed 's@  replicas: 1@  replicas: 1\n  selector: {"matchLabels": {"app": "helm", "name": "tiller"}}@' | kubectl apply -f -
 
 # Install the CustomResourceDefinition resources separately
 kubectl apply --validate=false -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.12/deploy/manifests/00-crds.yaml
@@ -19,7 +21,7 @@ kubectl apply --validate=false -f https://raw.githubusercontent.com/jetstack/cer
 kubectl create namespace cert-manager
 
 # Label the cert-manager namespace to disable resource validation
-kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
+kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true --overwrite
 
 # Add the Jetstack Helm repository
 helm repo add jetstack https://charts.jetstack.io
@@ -40,50 +42,7 @@ kubectl -n cert-manager rollout status deployment/cert-manager-cainjector
 kubectl -n cert-manager rollout status deployment/cert-manager-webhook
 
 # Create certificates, Issuer and ClusterIssuer to test deployment
-kubectl apply -f - <<EOF
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: cert-manager-test
----
-apiVersion: certmanager.k8s.io/v1alpha1
-kind: Issuer
-metadata:
-  name: test-selfsigned
-  namespace: cert-manager-test
-spec:
-  selfSigned: {}
----
-apiVersion: certmanager.k8s.io/v1alpha1
-kind: Certificate
-metadata:
-  name: selfsigned-cert
-  namespace: cert-manager-test
-spec:
-  commonName: example.com
-  secretName: selfsigned-cert-tls
-  issuerRef:
-    name: test-selfsigned
----
-apiVersion: certmanager.k8s.io/v1alpha1
-kind: ClusterIssuer
-metadata:
-  name: test-selfsigned-cluster
-spec:
-  selfSigned: {}
----
-apiVersion: certmanager.k8s.io/v1alpha1
-kind: Certificate
-metadata:
-  name: selfsigned-cert-cluster
-  namespace: cert-manager-test
-spec:
-  commonName: example.com
-  secretName: selfsigned-cert-tls-cluster
-  issuerRef:
-    name: test-selfsigned-cluster
-    kind: ClusterIssuer
-EOF
+kubectl apply -f https://raw.githubusercontent.com/gdha/k3s-intro/master/deploy/manifests/test-cert-manager-resources.yaml
 
 # Check that certs are issued
 kubectl describe certificate -n cert-manager-test
