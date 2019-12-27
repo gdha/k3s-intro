@@ -1,36 +1,19 @@
 #!/bin/bash
 
 # read - https://github.com/rancher/k3s/issues/117
+# and also - https://cert-manager.io/docs/installation/kubernetes/
 ######
 
+export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+
 # Create service account and RBAC resources for tiller
-kubectl apply -f - <<EOF
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: tiller
-  namespace: kube-system
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: tiller
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-subjects:
-  - kind: ServiceAccount
-    name: tiller
-    namespace: kube-system
-EOF
+kubectl apply -f https://raw.githubusercontent.com/gdha/k3s-intro/master/deploy/manifests/tiller-serviceaccount-rbac.yaml
 
 # Initialize tiller
-export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 helm init --service-account tiller --wait
 
 # Install the CustomResourceDefinition resources separately
-kubectl apply -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.7/deploy/manifests/00-crds.yaml
+kubectl apply --validate=false -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.12/deploy/manifests/00-crds.yaml
 
 # Create the namespace for cert-manager
 kubectl create namespace cert-manager
@@ -48,7 +31,7 @@ helm repo update
 helm install \
   --name cert-manager \
   --namespace cert-manager \
-  --version v0.7.0 \
+  --version v0.12.0 \
   jetstack/cert-manager
 
 # Wait for the pods to be ready here...
