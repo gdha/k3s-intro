@@ -12,7 +12,9 @@ kubectl apply -f https://raw.githubusercontent.com/gdha/k3s-intro/master/deploy/
 # Initialize tiller
 # helm init --service-account tiller --wait --upgrade
 # See issue at https://github.com/helm/helm/issues/6374
-helm init --service-account tiller --output yaml | sed 's@apiVersion: extensions/v1beta1@apiVersion: apps/v1@' | sed 's@  replicas: 1@  replicas: 1\n  selector: {"matchLabels": {"app": "helm", "name": "tiller"}}@' | kubectl apply -f -
+helm init --service-account tiller --override spec.selector.matchLabels.'name'='tiller',spec.selector.matchLabels.'app'='helm' --output yaml | sed 's@apiVersion: extensions/v1beta1@apiVersion: apps/v1@' | kubectl apply -f -
+
+# helm init --service-account tiller --output yaml | sed 's@apiVersion: extensions/v1beta1@apiVersion: apps/v1@' | sed 's@  replicas: 1@  replicas: 1\n  selector: {"matchLabels": {"app": "helm", "name": "tiller"}}@' | kubectl apply -f -
 
 # Install the CustomResourceDefinition resources separately
 kubectl apply --validate=false -f https://raw.githubusercontent.com/jetstack/cert-manager/release-0.12/deploy/manifests/00-crds.yaml
@@ -30,9 +32,11 @@ helm repo add jetstack https://charts.jetstack.io
 helm repo update
 
 # Install the cert-manager Helm chart
+# failed to renew lease kube-system/cert-manager-cainjector-leader-election-core: failed to tryAcquireOrRenew context deadline exceeded => add '--set rbac.create=true' (https://github.com/jetstack/cert-manager/issues/1068)
 helm install \
   --name cert-manager \
   --namespace cert-manager \
+  --set rbac.create=true \
   --version v0.12.0 \
   jetstack/cert-manager
 

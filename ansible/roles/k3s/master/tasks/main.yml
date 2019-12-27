@@ -1,6 +1,6 @@
 ---
 
-- name: Copy K3s service file
+- name: Copy k3s service file
   register: k3s_service
   template:
     src: "k3s.service.j2"
@@ -9,7 +9,7 @@
     group: root
     mode: 0755
 
-- name: Enable and check K3s service
+- name: Enable and check k3s service
   systemd:
     name: k3s
     daemon_reload: yes
@@ -51,18 +51,23 @@
     state: directory
     owner: "{{ ansible_user }}"
 
+- name: Replace https://localhost:6443 by https://master-ip:6443
+  replace:
+    path: /etc/rancher/k3s/k3s.yaml
+    regexp: 'https://localhost:6443'
+    replace: 'https://{{master_ip}}:6443'
+
+- name: Make /etc/rancher/k3s/k3s.yaml readable for all
+  file:
+    path: /etc/rancher/k3s/k3s.yaml
+    mode: '0644'
+
 - name: Copy config file to user home directory
   copy:
     src: /etc/rancher/k3s/k3s.yaml
     dest: /home/{{ ansible_user }}/.kube/config
     remote_src: yes
     owner: "{{ ansible_user }}"
-
-- name: Replace https://localhost:6443 by https://master-ip:6443
-  replace:
-    path: /home/{{ ansible_user }}/.kube/config
-    regexp: 'https://localhost:6443'
-    replace: 'https://{{master_ip}}:6443'
 
 - name: Create kubectl symlink
   file:
@@ -83,28 +88,28 @@
 
 - name: Kubectl Autocomplete to .bashrc of root
   lineinfile:
-    path: /home/root/.bashrc
+    path: /root/.bashrc
     line: 'source <(kubectl completion bash)'
 
 - name: add KUBECONFIG to .bashrc of {{ ansible_user }}
-    lineinfile:
+  lineinfile:
     path: /home/{{ ansible_user }}/.bashrc
-    line: 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml'
+    line: 'export KUBECONFIG=/home/{{ ansible_user }}/.kube/config'
 
 - name: add KUBECONFIG to .bashrc of root
-    lineinfile:
-    path: /home/root/.bashrc
+  lineinfile:
+    path: /root/.bashrc
     line: 'export KUBECONFIG=/etc/rancher/k3s/k3s.yaml'
 
 - name: add CATTLE_SERVER to .bashrc of {{ ansible_user }}
   lineinfile:
     path: /home/{{ ansible_user }}/.bashrc
-    line: 'export CATTLE_SERVER=https://rancher
+    line: 'export CATTLE_SERVER=https://rancher'
 
 - name: add CATTLE_SERVER to .bashrc of root
   lineinfile:
-    path: /home/root/.bashrc
-    line: 'export CATTLE_SERVER=https://rancher
+    path: /root/.bashrc
+    line: 'export CATTLE_SERVER=https://rancher'
 
 - include_tasks: install_helm.yml
 - include_tasks: install_cert_manager.yml
