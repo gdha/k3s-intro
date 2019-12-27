@@ -1,4 +1,4 @@
 .vagrant
 .DS_Store
 node-token
-site-retry
+site.retry
