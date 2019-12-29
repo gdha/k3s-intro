@@ -9,6 +9,10 @@ export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
 # Create service account and RBAC resources for tiller
 kubectl apply -f https://raw.githubusercontent.com/gdha/k3s-intro/master/deploy/manifests/tiller-serviceaccount-rbac.yaml
 
+# It may take a while before the tiller pod is available, therefore, sleep a bit
+echo "Wait 5 seconds so that \"tiller\" pod may become available..."
+sleep 5
+
 # Initialize tiller
 # helm init --service-account tiller --wait --upgrade
 # See issue at https://github.com/helm/helm/issues/6374
