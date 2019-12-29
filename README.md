@@ -12,6 +12,8 @@
 
 `vagrant up --provision` will take about 15 minutes to complete.
 
+The full output is available as a [gist](https://gist.github.com/gdha/5bb1ff685f7c927c2fad5dd04f6a0c9d)
+
 ## Start an Ubuntu pod
 ````
 kubectl run -i --tty ubuntu --image=ubuntu:16.04 --restart=Never -- bash -il
