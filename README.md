@@ -34,8 +34,6 @@ Login via https://localhost/ as admin
 ## Import the k3s cluster
 
 <p align="center"><img src="./images/import-existing-cluster.png" /></p>
-<br>
-<p align="center"><img src="./images/imported-cluster.png" /></p>
 
 ## Launch the Rancher cattles (via k3s-master)
 
@@ -66,3 +64,7 @@ cattle-system   cattle-node-agent-pnbj9                   0/1     ContainerCreat
 cattle-system   cattle-node-agent-zqvj9                   0/1     ContainerCreating   0          25s
 cattle-system   cattle-node-agent-cnv2z                   0/1     ContainerCreating   0          25s
 ````
+
+Once the pods are running we can check the web GUI again and will see the following:
+
+<p align="center"><img src="./images/imported-cluster.png" /></p>
