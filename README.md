@@ -31,6 +31,12 @@ rancher/rancher:latest
 
 Login via https://localhost/ as admin
 
+## Import the k3s cluster
+
+<p align="center"><img src="./images/import-existing-cluster.png" /></p>
+<br>
+<p align="center"><img src="./images/imported-cluster.png" /></p>
+
 ## Launch the Rancher cattles (via k3s-master)
 
 ````
