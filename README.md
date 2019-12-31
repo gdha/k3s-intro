@@ -12,7 +12,15 @@
 
 `vagrant up --provision` will take about 15 minutes to complete.
 
-The full output is available as a [gist](https://gist.github.com/gdha/5bb1ff685f7c927c2fad5dd04f6a0c9d)
+The full output is available as a [gist](https://gist.github.com/gdha/7400d23b6b3ca6cc0e35d7a4c601540f)
+
+## Login onto the k3s-master
+
+To login on the k3s-master type `vagrant ssh k3s-master`
+
+## Our k3s lab is available to play with
+
+The first command is viewing which pods are running: `kubectl get pods -A`
 
 ## Start an Ubuntu pod
 ````
