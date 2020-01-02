@@ -7,7 +7,7 @@ ExecStartPre=-/sbin/modprobe br_netfilter
 ExecStartPre=-/sbin/modprobe overlay
 #ExecStart=/usr/local/bin/k3s server --bind-address={{ master_ip }} --node-ip={{ master_ip }}
 # We want localhost also for helm
-ExecStart=/usr/local/bin/k3s server --node-ip={{ master_ip }}
+ExecStart=/usr/local/bin/k3s server --node-ip={{ master_ip }} --write-kubeconfig-mode 644
 KillMode=process
 Delegate=yes
 LimitNOFILE=infinity
