@@ -2,6 +2,6 @@
 ::1		localhost localhost.localdomain
 
 192.168.33.1   rancher
-192.168.33.11  k3s-master.box k3s-master
-192.168.33.12  k3s-client1.box k3s-client1
-192.168.33.13  k3s-client2.box k3s-client2
+192.168.33.11  node1 node1.box
+192.168.33.12  node2 node2.box
+192.168.33.13  node3 node3.box

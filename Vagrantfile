@@ -21,9 +21,9 @@ if plugin_installed === true
 end
 
 nodes = [
-   { :hostname => 'k3s-master',  :ip => '192.168.33.11', :box => BOX, :ram => 1024, :cpus => 1 },
-   { :hostname => 'k3s-client1', :ip => '192.168.33.12', :box => BOX, :ram => 1024, :cpus => 1 },
-   { :hostname => 'k3s-client2', :ip => '192.168.33.13', :box => BOX, :ram => 1024, :cpus => 1 }
+   { :hostname => 'node1', :ip => '192.168.33.11', :box => BOX, :ram => 1024, :cpus => 1 },
+   { :hostname => 'node2', :ip => '192.168.33.12', :box => BOX, :ram => 1024, :cpus => 1 },
+   { :hostname => 'node3', :ip => '192.168.33.13', :box => BOX, :ram => 1024, :cpus => 1 }
 ]
 
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'

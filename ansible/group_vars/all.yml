@@ -5,5 +5,5 @@ master_ip: "{{ hostvars[groups['master'][0]]['ansible_host'] | default(groups['m
 # 
 # node_ip: "{{ hostvars[groups['node']]['ansible_host'] }}"
 # This results with the following error:
-## fatal: [k3s-client1]: FAILED! => {"changed": false, "msg": "AnsibleUndefinedVariable: ansible.vars.hostvars.HostVars object has no element [u'k3s-client1', u'k3s-client2']"}
+## fatal: [node2]: FAILED! => {"changed": false, "msg": "AnsibleUndefinedVariable: ansible.vars.hostvars.HostVars object has no element [u'node2', u'node3']"}
 # The node role will grab the node_ip now instead

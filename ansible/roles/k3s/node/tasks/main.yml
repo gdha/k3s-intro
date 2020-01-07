@@ -1,7 +1,7 @@
 ---
 
-- name: download the node-token from k3s-master
-  shell: scp root@k3s-master:/var/lib/rancher/k3s/server/node-token /vagrant/node-token
+- name: download the node-token from node1
+  shell: scp root@node1:/var/lib/rancher/k3s/server/node-token /vagrant/node-token
 
 - name: rear the node-token from the copied file
   set_fact:
@@ -11,7 +11,7 @@
   shell: /sbin/ifconfig eth1 | grep 'inet ' | awk '{print $2}'
   register: node_ip
 
-- name: Copy K3s service file
+- name: Copy k3s service file
   template:
     src: "k3s.service.j2"
     dest: "{{ systemd_dir }}/k3s-node.service"
@@ -19,7 +19,7 @@
     group: root
     mode: 0755
 
-- name: Enable and check K3s service
+- name: Enable and check k3s service
   systemd:
     name: k3s-node
     daemon_reload: yes

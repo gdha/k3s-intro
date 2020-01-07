@@ -14,9 +14,9 @@
 
 The full output is available as a [gist](https://gist.github.com/gdha/7400d23b6b3ca6cc0e35d7a4c601540f)
 
-## Login onto the k3s-master
+## Login onto the node1
 
-To login on the k3s-master type `vagrant ssh k3s-master`
+To login on the node1 type `vagrant ssh node1`
 
 ## Our k3s lab is available to play with
 
@@ -43,10 +43,10 @@ Login via https://localhost/ as admin
 
 <p align="center"><img src="./images/import-existing-cluster.png" /></p>
 
-## Launch the Rancher cattles (via k3s-master)
+## Launch the Rancher cattles (via node1)
 
 ````
-root@k3s-master:~# curl --insecure -sfL https://rancher/v3/import/g92tc85nf7229xjpt7d7wt4x94gs8lnlnrdphxmjvjsrf8dz8s4lzq.yaml | kubectl apply -f -
+root@node1:~# curl --insecure -sfL https://rancher/v3/import/g92tc85nf7229xjpt7d7wt4x94gs8lnlnrdphxmjvjsrf8dz8s4lzq.yaml | kubectl apply -f -
 clusterrole.rbac.authorization.k8s.io/proxy-clusterrole-kubeapiserver created
 clusterrolebinding.rbac.authorization.k8s.io/proxy-role-binding-kubernetes-master created
 namespace/cattle-system created
@@ -56,7 +56,7 @@ secret/cattle-credentials-6c706fa created
 clusterrole.rbac.authorization.k8s.io/cattle-admin created
 deployment.apps/cattle-cluster-agent created
 daemonset.apps/cattle-node-agent created
-root@k3s-master:~# kubectl get pods -A
+root@node1:~# kubectl get pods -A
 NAMESPACE       NAME                                      READY   STATUS              RESTARTS   AGE
 kube-system     metrics-server-6d684c7b5-vxxsd            1/1     Running             0          17m
 kube-system     local-path-provisioner-58fb86bdfd-g5x7t   1/1     Running             0          17m
