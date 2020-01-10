@@ -1,13 +1,14 @@
 # Build a Kubernetes cluster using k3s via Ansible.
 
-Author: https://github.com/itwars
+Original Author: https://github.com/itwars
+Modified by Gratien D'haese
 
 ## K3s Ansible Playbook
 
 Build a Kubernetes cluster using Ansible with k3s. The goal is easily install a Kubernetes cluster on machines running:
 
 - [X] Debian 
-- [ ] Ubuntu 
+- [X] Ubuntu 
 - [ ] CentOS 
 
 on processor architecture:
@@ -27,10 +28,10 @@ Add the system information gathered above into a file called hosts.ini. For exam
 
 ```
 [master]
-192.16.35.12
+192.168.33.11
 
 [node]
-192.16.35.[10:11]
+192.168.33.[12:13]
 
 [k3s-cluster:children]
 master
