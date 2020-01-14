@@ -76,3 +76,6 @@ cattle-system   cattle-node-agent-cnv2z                   0/1     ContainerCreat
 Once the pods are running we can check the web GUI again and will see the following:
 
 <p align="center"><img src="./images/imported-cluster.png" /></p>
+
+
+[Apache License, Version 2.0](http://opensource.org/licenses/Apache-2.0).

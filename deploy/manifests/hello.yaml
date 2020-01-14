@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: privileged-pod
+  name: hello
   namespace: default
 spec:
   containers:
