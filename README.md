@@ -77,5 +77,10 @@ Once the pods are running we can check the web GUI again and will see the follow
 
 <p align="center"><img src="./images/imported-cluster.png" /></p>
 
+## Cleanup
+
+To remove all the vagrant VMs just type `vagrant destroy -y`
+
+## License
 
 [Apache License, Version 2.0](http://opensource.org/licenses/Apache-2.0).
