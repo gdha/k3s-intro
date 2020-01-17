@@ -112,4 +112,7 @@
     line: 'export CATTLE_SERVER=https://rancher'
 
 - include_tasks: install_helm.yml
+
+- include_tasks: label_nodes.yml
+
 - include_tasks: install_cert_manager.yml

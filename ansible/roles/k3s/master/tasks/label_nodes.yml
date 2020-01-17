@@ -1,0 +1,4 @@
+---
+
+- name: label the worker nodes
+  command: /vagrant/label-worker-nodes.sh
