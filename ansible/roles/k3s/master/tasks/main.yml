@@ -113,6 +113,8 @@
 
 - include_tasks: install_helm.yml
 
-- include_tasks: label_nodes.yml
+# Labeling does not work with the script as when it wants to run on node1
+# node2 and node3 are not yet provisioned. Will move it to the demo part.
+# - include_tasks: label_nodes.yml
 
 - include_tasks: install_cert_manager.yml

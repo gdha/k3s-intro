@@ -53,8 +53,9 @@ kubectl -n cert-manager rollout status deployment/cert-manager
 kubectl -n cert-manager rollout status deployment/cert-manager-cainjector
 kubectl -n cert-manager rollout status deployment/cert-manager-webhook
 
+# We will use the next 2 commands during our demo:
 # Create certificates, Issuer and ClusterIssuer to test deployment
-kubectl apply -f https://raw.githubusercontent.com/gdha/k3s-intro/master/deploy/manifests/test-cert-manager-resources.yaml
+# kubectl apply -f https://raw.githubusercontent.com/gdha/k3s-intro/master/deploy/manifests/test-cert-manager-resources.yaml
 
 # Check that certs are issued
-kubectl describe certificate -n cert-manager-test
+# kubectl describe certificate -n cert-manager-test

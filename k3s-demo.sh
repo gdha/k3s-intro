@@ -76,6 +76,8 @@ runcmd "Add KUBECONFIG to .bashrc" "grep KUBECONFIG $HOME/.bashrc"
 
 runcmd "Show the k3s nodes" "kubectl get nodes"
 
+runcmd "Label the worker nodes" "/vagrant/label-worker-nodes.sh"
+
 runcmd "Show the k3s nodes with option wide" "kubectl get nodes -o wide"
 
 runcmd "Show the capacity of all our nodes as a stream of JSON objects" "kubectl get nodes -o json | jq \".items[] | {name:.metadata.name} + .status.capacity\""
@@ -168,4 +170,9 @@ mysql -h $MYSQL_HOST -P$MYSQL_PORT -u root -p$MYSQL_ROOT_PASSWORD
 Type \"exit;\" to exit from database"
 pause
 
+# Demonstrate the vert-manager by creating a test certificate
+runcmd "Create certificates, Issuer and ClusterIssuer to test deployment" \
+"kubectl apply -f https://raw.githubusercontent.com/gdha/k3s-intro/master/deploy/manifests/test-cert-manager-resources.yaml"
+
+runcmd "Check that certs are issued" "kubectl describe certificate -n cert-manager-test"
 
