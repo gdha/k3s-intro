@@ -22,12 +22,26 @@ To login on the node1 type `vagrant ssh node1`
 
 The first command is viewing which pods are running: `kubectl get pods -A`
 
+## Start the interactive demo
+
+Login to node1 as vagrant via `vagrant ssh node1` or `ssh vagrant@192.168.33.11`
+
+Become root with the command `sudo -i` and position yourself in `/vagrant`
+
+Run the command `/vagrant/k3s-demo.sh` to start the demo.
+
 ## Start an Ubuntu pod
+
+To have an interactive shell with an Ubuntu container you can do the following:
+
 ````
 kubectl run -i --tty ubuntu --image=ubuntu:16.04 --restart=Never -- bash -il
 ````
 
 # Play with Rancher Administration suite (optional)
+
+There are so many things you can do right now to explore the wonderful world of kubernetes.
+One of the things you can do is for example is import this k3s cluster into your Rancher environment.
 
 ## Start the Rancher Server with docker (outside the k3s cluster)
 
